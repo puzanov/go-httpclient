@@ -11,7 +11,10 @@ import (
 	"net/http"
 	"strings"
 	"testing"
+	"os"
 )
+
+var httpbinAddr = ""
 
 // common response format on httpbin.org
 type ResponseInfo struct {
@@ -23,6 +26,12 @@ type ResponseInfo struct {
 	Files     map[string]string `json:"files"`
 	Headers   map[string]string `json:"headers"`
 	Cookies   map[string]string `json:"cookies"`
+}
+
+func init() {
+	if httpbinAddr = os.Getenv("HTTPBIN_ADDR"); httpbinAddr == "" {
+		httpbinAddr = "http://httpbin.org"
+	}
 }
 
 func TestRequest(t *testing.T) {
